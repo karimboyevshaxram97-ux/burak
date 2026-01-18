@@ -3,8 +3,6 @@ const router = express.Router();
  import memberController from "../controllers/member.controllers";
 
 router.get("/", memberController.goHome);
- 
-router.get("/", memberController.goHome);
 
  router.get("/Login", memberController.getLogin);
 
