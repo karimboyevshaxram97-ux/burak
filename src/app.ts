@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import router from "./views/router"
+import routerAdmin from "./views/routerAdmin";
 
 /** 1-ENTRANCE **/
 const app = express();
@@ -15,6 +16,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 /** 4-ROUTERS **/
-app.use("/", router); 
+app.use("/admin",routerAdmin);     // SSR: backendda frontendni qurib oliosh va biz bunda EJS framworkdan foydalanamiz
+app.use("/", router);             // SPA: REACT ( bizning 1-maqsadimiz burak backand serverni loyixamizga react  spa sifatida ishlatamiz)
 
 export default app;
