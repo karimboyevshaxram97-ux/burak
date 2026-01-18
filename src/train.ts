@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 //H-TASK
 
 //Shunday function tuzing, u integerlardan iborat arrayni argument sifatida qabul qilib,
@@ -8,8 +15,7 @@ function getPositive(arr: number[]): string {
     const positives = arr.filter(num => num > 0);
     const strArray = positives.map(num => num.toString());
     return strArray.join('');
-}+ 
-
+}+    
 
 //=====================================================================================
 
