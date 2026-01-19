@@ -2,12 +2,14 @@ import express from "express";
 import path from "path";
 import router from "./views/router"
 import routerAdmin from "./views/routerAdmin";
+import morgan from "morgan";
 
-/** 1-ENTRANCE **/
+/** 1-ENTRANCE kirish kodlari**/
 const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan(`MORGAN_FORMAT`));
 
 /** 2-SESSIONS **/
 
