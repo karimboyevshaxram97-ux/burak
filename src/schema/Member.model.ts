@@ -35,17 +35,17 @@ const memberSchema = new Schema(
 
   memberAddress: {
     type: String,
-    required: true,
+    required: false,
   },
 
   memberDesc: {
     type: String,
-    required: true,
+    required: false,
   },
 
   memberImage: {
     type: String,
-    required: true,
+    required: false,
   },
 
   memberPoints: {
