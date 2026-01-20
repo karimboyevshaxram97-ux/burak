@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import router from "./views/router"
-import routerAdmin from "./views/routerAdmin";
+import routerAdmin from "./views/router-admin";
 import morgan from "morgan";
 
 /** 1-ENTRANCE kirish kodlari**/
