@@ -2,7 +2,9 @@ import {ObjectId} from "mongoose";
 import { MemberStatus, MemberType } from "./enums/member.enum";
 
 export interface Member {
-  _id: ObjectId;
+  _id: ObjectId; 
+
+  
   memberType: MemberType;           // A'zoning turi (masalan: admin, user)
   memberStatus: MemberStatus;       // A'zoning holati (masalan: active, inactive)
   memberNick: string;               // Taxallus (nickname)
