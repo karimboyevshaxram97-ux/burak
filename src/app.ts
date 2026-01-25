@@ -5,17 +5,22 @@ import routerAdmin from "./views/router-admin";
 import morgan from "morgan";
 import { MORGAN_FORMAT } from "./libs/types/config";
 
-const app = express();
 
+/** 1-ENTRANCE KIRISH QISMI */
+const app = express();
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan(MORGAN_FORMAT));
 
+/**2-SESSIONS */
+
+/** 3-VIEWS */
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use("/admin", routerAdmin);
-app.use("/", router);
+/**4-ROUTERS  */
+app.use("/admin", routerAdmin); // SSR YANI BU BACKEND QISMI
+app.use("/", router);   // SPA BU ESA REACT QISMI
 
 export default app;

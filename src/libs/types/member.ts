@@ -1,6 +1,5 @@
 import {ObjectId} from "mongoose";
-import { MemberStatus, MemberType } from "./enums/member.enum";
-
+import {MemberStatus, MemberType } from "./enums/member.enum";
 export interface Member {
   _id: ObjectId; 
 
@@ -29,3 +28,8 @@ export interface MemberInput {
   memberImage?: string;            // Profil rasmi URL - ixtiyoriy
   memberPoints?: number;           // Ballar yoki reyting - ixtiyoriy
 }
+
+ export interface LoginInput {
+  memberNick: string;
+  memberPassword: string;
+ }

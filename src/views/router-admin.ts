@@ -4,12 +4,13 @@ const routerAdmin = express.Router();
 
  /** RESTAURANT */
 routerAdmin.get("/", restaurantController.goHome);
- 
-routerAdmin.get("/login", restaurantController.getLogin);
-routerAdmin.post("/login", restaurantController.processLogin);
+ routerAdmin
+.get("/login", restaurantController.getLogin)
+.post("/login", restaurantController.processLogin);
 
-routerAdmin.get("/Signup", restaurantController.getSignup);
-routerAdmin.post("/signup",restaurantController.processSignup);
+routerAdmin
+.get("/Signup", restaurantController.getSignup)
+.post("/signup",restaurantController.processSignup);
 
 /** PRODUCT */
 /** USER */

@@ -1,3 +1,17 @@
+
+
+function countVowels(str: string): number {
+  const matches = str.match(/[aeiou]/gi); // unli harflarni topadi (g - global, i - case-insensitive)
+  return matches ? matches.length : 0;
+}
+
+// Misollar:
+console.log(countVowels("string"));      // Natija: 1
+console.log(countVowels("education"));   // Natija: 5
+console.log(countVowels("JavaScript"));  // Natija: 3
+
+
+
 /**
  * 
  J-TASK
@@ -5,7 +19,7 @@
 Shunday function yozing, u string qabul qilsin va string ichidagi eng uzun sozni qaytarsin.
  MASALAN: findLongestWord("I come from Uzbekistan") return "Uzbekistan".
 
- */
+ 
 
 function findLongestWord(sentence: string): string {
   const words = sentence.split(" ");
@@ -21,7 +35,7 @@ function findLongestWord(sentence: string): string {
 }
 
 console.log(findLongestWord("I come from Uzbekistan")); // Natija: "Uzbekistan"
-
+*/
 
 //====================================================================
 /* Project Standards:
