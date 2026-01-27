@@ -11,7 +11,8 @@ mongoose
   .then(() => {
     console.log("MongoDB connection succeeded");
     app.listen(PORT, () => {
-      console.log(`Server is running on port: ${PORT}`);
+      console.info(`Server is running on port: ${PORT}`);
+      console.info(`Admin project on http://localhost:${PORT}/admin \n`);
     });
   })
   .catch((err) => {

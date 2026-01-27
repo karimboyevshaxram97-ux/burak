@@ -1,7 +1,28 @@
+/**
+ L-TASK
+Shunday function yozing, u string qabul qilsin va string ichidagi hamma sozlarni chappasiga yozib 
+va sozlar ketma-ketligini buzmasdan stringni qaytarsin. MASALAN: reverseSentence("we like coding!")
+ return "ew ekil gnidoc".
+*/
 
+
+function reverseSentence(str: string): string {
+  return str
+    .split(" ") // stringni so‘zlarga bo‘lib olamiz
+    .map((word: string) => word.split("").reverse().join("")) // har bir so‘zni chappasiga yozamiz
+    .join(" "); // so‘zlarni qayta birlashtiramiz
+}
+
+// Test
+console.log(reverseSentence("we like coding!"));
+// Natija: "ew ekil gnidoc!"
+
+//===========================================================================
+
+/*
 
 function countVowels(str: string): number {
-  const matches = str.match(/[aeiou]/gi); // unli harflarni topadi (g - global, i - case-insensitive)
+  const matches = str.match(/[aeiou]/gi);            // unli harflarni topadi (g - global, i - case-insensitive)
   return matches ? matches.length : 0;
 }
 
@@ -9,7 +30,7 @@ function countVowels(str: string): number {
 console.log(countVowels("string"));      // Natija: 1
 console.log(countVowels("education"));   // Natija: 5
 console.log(countVowels("JavaScript"));  // Natija: 3
-
+*/
 
 
 /**

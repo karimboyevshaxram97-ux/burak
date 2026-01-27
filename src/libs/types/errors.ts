@@ -27,6 +27,11 @@ class Errors extends Error {
   public code: HttpCode;         // HTTP status kodi
   public message: Message;       // Xatolik haqida xabar
 
+static standard = {
+  code: HttpCode.INTERNAL_SERVER_ERROR,
+  massage: Message.SOMETHING_WENT_WRONG,
+}
+
   // Konstruktor: yangi xatolik obyektini yaratadi
   constructor(statusCode: HttpCode, statusMessage: Message) {
     super();                     // Error klassining konstruktorini chaqiradi
