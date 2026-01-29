@@ -15,6 +15,25 @@ class MemberService {                         // biznes mantiqni boshlanishi
         /** SPA */
 //=======================================================================================
     public async Signup(input: MemberInput): Promise<Member> {
+    const exist = await this.memberModel
+        .findOne({ memberType: MemberType.RESTAURANT })
+        .exec();
+    if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+
+    const salt = await bcrypt.genSalt();
+    input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
+
+    try {
+        const result = await this.memberModel.create(input);
+        result.memberPassword = "";
+        return result;
+    } catch (err) {
+        throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+    }
+}
+
+/*
+public async Signup(input: MemberInput): Promise<Member> {
        const salt = await bcrypt.genSalt();
         input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
        
@@ -27,6 +46,7 @@ class MemberService {                         // biznes mantiqni boshlanishi
             throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);
         }
     }
+        */
     //=====================================================================================
 
 

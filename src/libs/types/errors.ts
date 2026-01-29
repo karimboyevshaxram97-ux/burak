@@ -20,6 +20,7 @@ export enum Message {
   NO_MEMBER_NICK = "No member with that member nick!",
   WRONG_PASSWORD = "Wrong password, please try again!",
    XATO_KOD = "AGAR KODINGIZ XATO BOLSA BOSHQATDAN URINIB KORING!",
+   NOT_AUTHENTICATED = "you are not authenticated,please login first!"
 }
 
 // Maxsus xatolik klassi, umumiy Error klassidan meros oladi
@@ -29,7 +30,7 @@ class Errors extends Error {
 
 static standard = {
   code: HttpCode.INTERNAL_SERVER_ERROR,
-  massage: Message.SOMETHING_WENT_WRONG,
+  message: Message.SOMETHING_WENT_WRONG,
 }
 
   // Konstruktor: yangi xatolik obyektini yaratadi
