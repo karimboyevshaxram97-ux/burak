@@ -1,4 +1,4 @@
- import {Request, Response} from "express";
+ import {Request, Response, NextFunction} from "express";
 import {T} from "../libs/types/common"
 import MemberService from "../models/Members.service";
 import { AdminRequest, MemberInput } from "../libs/types/member";
@@ -7,6 +7,7 @@ import { LoginInput } from '../libs/types/member';
 import MemberModel from "../schema/Member.model";
 import { Message } from "../libs/types/errors";
 import Errors from "../libs/types/errors"; 
+
 
 const memberService = new MemberService();
 
@@ -55,6 +56,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
         console.log("processSignup: request Received");
 
         const newMember: MemberInput = req.body;
+        
         newMember.memberType = MemberType.RESTAURANT;
         console.log(req.body);
         
@@ -76,6 +78,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
 );
     }
 };
+
 //=============================================================================
 
 restaurantController.processLogin = async (req: AdminRequest, res: Response) => {
@@ -128,6 +131,24 @@ restaurantController.checkAuthSession = async (
   } catch (err) {
     console.log("Error, checkAuthSession:", err);
     res.send(err);
+  }
+};
+
+//================================================================================
+
+restaurantController.verifyRestaurant = (
+  req: AdminRequest,
+  res: Response,
+  next: NextFunction
+) => {
+    if (req.session?.member?.memberType === MemberType.RESTAURANT) {
+      req.member = req.session.member;
+      next();
+  } else {
+    const message = Message.NOT_AUTHENTICATED;
+    res.send(
+      `<script> alert("${message}"); window.location.replace('/admin/login'); </script>`
+    );
   }
 };
 

@@ -3,16 +3,17 @@ import path from "path";
 import router from "./router";
 import routerAdmin from "./router-admin";
 import morgan from "morgan";
-import { MORGAN_FORMAT } from "./libs/types/config";
+import { MORGAN_FORMAT } from "../src/libs/types/config";
 
 
-import session from "express-session";
-import ConnectMongoDB from "connect-mongodb-session";
+import session from "express-session";                 // Express ilovasida sessiya boshqaruvi uchun modul
+import ConnectMongoDB from "connect-mongodb-session";  // Sessiyani MongoDB’da saqlash uchun modul
+import { T } from "./libs/types/common"
 
-const MongoDBStore = ConnectMongoDB(session);
+const MongoDBStore = ConnectMongoDB(session);          // MongoDB sessiya saqlovchi klassni yaratadi
 const store = new MongoDBStore({
-  uri: String(process.env.MONGO_URL),
-  collection: "sessions",
+  uri: String(process.env.MONGO_URL),                   // MongoDB manzili .env fayldan olinadi
+  collection: "sessions",                                // Sessiyalar saqlanadigan kolleksiya nomi
 });
 
 /** 1-ENTRANCE KIRISH QISMI */
@@ -25,15 +26,21 @@ app.use(morgan(MORGAN_FORMAT));
 /**2-SESSIONS */
 app.use(
   session({
-    secret: String(process.env.SESSION_SECRET),
-    cookie: {
+    secret: String(process.env.SESSION_SECRET),   // sessiyani shifrlash uchun maxfiy kalit
+     cookie: {
       maxAge: 1000 * 3600 * 3, // 3h
     },
-    store: store,
-    resave: true,
-    saveUninitialized: true,
+    store: store,        // sessiyalarni saqlash joyi (masalan, MongoDB)
+     rolling: true,        // sessiya o‘zgarmasa ham qayta saqlanadi
+     saveUninitialized: true,    // bo‘sh sessiyalar ham saqlanadi
   })
 );
+
+app.use(function (req, res, next) {
+    const sessionInstance = req.session as T;
+    res.locals.member = sessionInstance.member; 
+    next()
+})
 
 /** 3-VIEWS */
 app.set("views", path.join(__dirname, "views"));
