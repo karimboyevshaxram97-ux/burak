@@ -20,20 +20,25 @@ routerAdmin.get("/logout",restaurantController.logout);
 routerAdmin.get("/check-me",restaurantController.checkAuthSession);
 
 /** PRODUCT */
-routerAdmin.get("/product/all",
-     restaurantController.verifyRestaurant, 
-     productController.getAllProducts)
-     ;
-routerAdmin.post("/product/create", 
-     restaurantController.verifyRestaurant, 
-     makeUploader("products").array("productImages", 5),
-     productController.createNewProduct
+routerAdmin.get("/product/all",                        // GET so‘rovi: barcha mahsulotlarni olish
+      restaurantController.verifyRestaurant,           // Middleware: restoran egasi ekanligini tekshiradi
+       productController.getAllProducts                // Controller: mahsulotlar sahifasini render qiladi
     );
-routerAdmin.post("/product/:id",
-      restaurantController.verifyRestaurant, 
-     productController.updateChosenProduct
+
+ routerAdmin.post("/product/create",                       // POST so‘rovi: yangi mahsulot yaratish
+    restaurantController.verifyRestaurant,                // Middleware: restoran egasi ekanligini tekshiradi
+     makeUploader("products").array("productImages", 5),    // Middleware: 5 tagacha rasm yuklash
+     productController.createNewProduct                      // Controller: yangi mahsulotni yaratadi
+    );
+routerAdmin.post("/product/:id",                            // POST so‘rovi: ma’lum ID bo‘yicha mahsulotni yangilash
+      restaurantController.verifyRestaurant,                  // Middleware: restoran egasi ekanligini tekshiradi
+      productController.updateChosenProduct               // Controller: mahsulotni yangilash
     );
 
 /** USER */
+
+routerAdmin.get("/user/all", restaurantController.verifyRestaurant, restaurantController.getUsers)
+
+
 export default routerAdmin;
 

@@ -31,7 +31,7 @@ app.use(
       maxAge: 1000 * 3600 * 3, // 3h
     },
     store: store,        // sessiyalarni saqlash joyi (masalan, MongoDB)
-     rolling: true,        // sessiya o‘zgarmasa ham qayta saqlanadi
+     resave: true,        // sessiya o‘zgarmasa ham qayta saqlanadi
      saveUninitialized: true,    // bo‘sh sessiyalar ham saqlanadi
   })
 );

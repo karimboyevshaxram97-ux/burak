@@ -1,4 +1,4 @@
-export interface T {
+export interface T {           
     [key: string]: any;
 }
 

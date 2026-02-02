@@ -60,7 +60,7 @@ restaurantController.processSignup = async (req: AdminRequest, res: Response) =>
         newMember.memberType = MemberType.RESTAURANT;
         console.log(req.body);
         
-        const result = await memberService.Signup(newMember);
+        const result = await memberService.processSignup(newMember);
 
           // TODO:  SESSION AUTHENTIFICATION  
 
@@ -116,6 +116,31 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
     res.redirect("/admin");
   }
 };
+
+//==================================================================================
+
+restaurantController.getUsers = async (req: Request, res: Response) => {         // Foydalanuvchilar ro'yxatini olish
+  try {                                                                       // Xatoliklarni ushlash uchun blok
+    console.log("getUsers");                                                 // Konsolga log chiqarish
+    const result = await memberService.getUsers();                            // memberService orqali foydalanuvchilarni olish
+    console.log("result:", result)
+
+    res.render("users", { users: result });                                 // "users" sahifasini render qilish
+  } catch (err) {                                                           // Agar xatolik bo'lsa
+    console.log("Error, getUsers:", err);                                     // Xatolikni konsolga chiqarish
+    res.redirect("/admin/login");                                            // Login sahifasiga yo'naltirish
+  }
+};
+
+//========================================================================
+restaurantController.updateChosenUser = (req: Request, res: Response) => {               // Tanlangan foydalanuvchini yangilash
+  try {                                                                                 // Xatoliklarni ushlash uchun blok
+    console.log("updateChosenUser");                                                    // Konsolga log chiqarish
+  } catch (err) {                                                                       // Agar xatolik bo'lsa
+    console.log("Error, updateChosenUser:", err);                                       // Xatolikni konsolga chiqarish
+  }
+};
+
 
 //================================================================================
 
