@@ -34,7 +34,7 @@ productController.createNewProduct = async (req: AdminRequest, res: Response) =>
   try {
     console.log("createNewProduct");                   // Konsolda log chiqaradi
      console.log("req.files:", req.files);             // rasm haqida malumot
-    res.send("DONE!")                                  // Javob: tugadi
+   
     
     if (!req.files?.length)                                 // Agar fayllar mavjud emas yoki bo'sh bo'lsa
     throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED);      // CREATE_FAILED xatolikni chiqarish
