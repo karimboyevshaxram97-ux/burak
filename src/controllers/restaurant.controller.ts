@@ -5,7 +5,7 @@ import { AdminRequest, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/types/enums/member.enum";
 import { LoginInput } from '../libs/types/member';
 import MemberModel from "../schema/Member.model";
-import { Message } from "../libs/types/errors";
+import { HttpCode, Message } from "../libs/types/errors";
 import Errors from "../libs/types/errors"; 
 
 
@@ -51,22 +51,23 @@ restaurantController.getLogin = (req: Request, res: Response) => {
 };
 
 //=============================================================================
-restaurantController.processSignup = async (req: AdminRequest, res: Response) => {
-    try {
-        console.log("processSignup: request Received");
-
-        const newMember: MemberInput = req.body;
-        
-        newMember.memberType = MemberType.RESTAURANT;
-        console.log(req.body);
-        
-        const result = await memberService.processSignup(newMember);
-
-          // TODO:  SESSION AUTHENTIFICATION  
-
-         req.session.member = result;
+restaurantController.processSignup = async (
+  req: AdminRequest,
+  res: Response) => {
+  try {
+        console.log("processSignup");             // Ro'yxatdan o'tish jarayoni boshlandi
+        const file = req.file;                    // HTTP so'rovdan yuklangan faylni olish
+        if (!file)                               // Agar fayl mavjud bo'lmasa
+        throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);   // BAD_REQUEST xatolikni chiqarish
+       
+       const newMember: MemberInput = req.body;                          // Foydalanuvchidan kelgan ma'lumotlarni MemberInput tipida olish
+       newMember.memberImage = file?.path.replace(/\\/g, "/");           // Fayl yo'lidagi '\' belgilarini '/' ga almashtirish (Windows yo'lini web formatga o'tkazish)
+       newMember.memberType = MemberType.RESTAURANT;                     // Foydalanuvchini RESTAURANT turiga belgilash (doimiy qiymat)
+       const result = await memberService.processSignup(newMember);      // memberService orqali ro'yxatdan o'tish jarayonini bajarish
+         
+       req.session.member = result;
          req.session.save(function() {
-        res.send(result);
+        res.redirect("/admin/product/all");     // Foydalanuvchini "/admin/product/all" sahifasiga yo'naltirish
     })
     
     } catch (err) {
@@ -90,7 +91,7 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
        
        req.session.member = result;
          req.session.save(function() {
-        res.send(result);
+        res.redirect("/admin/product/all"); // Foydalanuvchini "/admin/product/all" sahifasiga yo'naltirish
     })
     
     } catch (err) {
@@ -123,7 +124,7 @@ restaurantController.getUsers = async (req: Request, res: Response) => {        
   try {                                                                       // Xatoliklarni ushlash uchun blok
     console.log("getUsers");                                                 // Konsolga log chiqarish
     const result = await memberService.getUsers();                            // memberService orqali foydalanuvchilarni olish
-    console.log("result:", result)
+   
 
     res.render("users", { users: result });                                 // "users" sahifasini render qilish
   } catch (err) {                                                           // Agar xatolik bo'lsa
@@ -133,12 +134,18 @@ restaurantController.getUsers = async (req: Request, res: Response) => {        
 };
 
 //========================================================================
-restaurantController.updateChosenUser = (req: Request, res: Response) => {               // Tanlangan foydalanuvchini yangilash
+restaurantController.updateChosenUser = async(req: Request, res: Response) => {               // Tanlangan foydalanuvchini yangilash
   try {                                                                                 // Xatoliklarni ushlash uchun blok
     console.log("updateChosenUser");                                                    // Konsolga log chiqarish
+    const result = await memberService.updateChosenUser(req.body);
+
   } catch (err) {                                                                       // Agar xatolik bo'lsa
     console.log("Error, updateChosenUser:", err);                                       // Xatolikni konsolga chiqarish
+  console.log("Error, updateChosenUser:", err); // Xatolikni konsolga chiqarish
+  if (err instanceof Errors) res.status(err.code).json(err); // Agar xatolik maxsus Errors turida bo‘lsa, kod va xabarni yuborish
+  else res.status(Errors.standard.code).json(Errors.standard); // Aks holda umumiy xatolik javobini yuborish
   }
+
 };
 
 

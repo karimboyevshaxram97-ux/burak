@@ -36,7 +36,20 @@ export interface MemberInput {
   memberPassword: string;
  }
 
+export interface MemberUpdateInput {
+  _id: ObjectId;                           // Memberning noyob ID raqami (majburiy)
+  memberStatus?: MemberStatus;             // Memberning holati (ixtiyoriy)
+  memberNick?: string;                     // Foydalanuvchi nomi (ixtiyoriy)
+  memberPhone?: string;                     // Telefon raqami (ixtiyoriy)
+  memberPassword?: string;                   // Parol (ixtiyoriy)
+  memberAddress?: string;                     // Manzil (ixtiyoriy)
+  memberDesc?: string;                        // Qo‘shimcha tavsif (ixtiyoriy)
+  memberImage?: string;                        // Rasm URL manzili (ixtiyoriy)
+}
+
  export interface AdminRequest extends Request {
   member: Member;
   session: Session & { member: Member};
+  file: Express.Multer.File;
+  files: Express.Multer.File[];
  }

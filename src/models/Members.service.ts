@@ -2,9 +2,10 @@
 import { error } from "console"; // Konsol xatoliklari uchun
 import { MemberType } from "../libs/types/enums/member.enum"; // MemberType enum
 import Errors, { HttpCode, Message } from "../libs/types/errors"; // Maxsus xatoliklar va kodlar
-import { LoginInput, Member, MemberInput } from "../libs/types/member"; // Tiplar
+import { LoginInput, Member, MemberInput, MemberUpdateInput } from "../libs/types/member"; // Tiplar
 import MemberModel from "../schema/Member.model"; // MongoDB modeli
 import * as bcrypt from "bcryptjs"; // Parolni xeshlash kutubxonasi      //import { LoginInput,  Member, MemberInput } from "../libs/types/member";
+import { shapeIntoMongooseObjectId } from "../libs/types/config";
 
 
 class MemberService {
@@ -77,17 +78,17 @@ class MemberService {
    */
   public async processLogin(input: LoginInput): Promise<Member> {
     const member = await this.memberModel
-      .findOne({ memberNick: input.memberNick }, { memberNick: 1, memberPassword: 1 }) // Nickname orqali qidirish
+      .findOne({ memberNick: input.memberNick }, { memberNick: 1, memberPassword: 1 })      // Nickname orqali qidirish
       .exec(); // So'rovni bajarish
 
-    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK); // Agar topilmasa xatolik
+    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);             // Agar topilmasa xatolik
 
-    const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword); // Parollarni solishtirish
+    const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword);       // Parollarni solishtirish
     if (!isMatch) {
-      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD); // Parol noto'g'ri bo'lsa
-    }
+      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);                     // Parol noto'g'ri bo'lsa
+    }  
 
-    return await this.memberModel.findById(member._id).exec();           // To'liq memberni qaytarish
+    return await this.memberModel.findById(member._id).exec();                           // To'liq memberni qaytarish
   }
 
 
@@ -98,8 +99,23 @@ public async getUsers(): Promise<Member[]> {            // USER turidagi barcha 
 
   if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);             // Agar hech narsa topilmasa, xatolik chiqarish
 
-  return result;                                                                 // Topilgan memberlar ro'yxatini qaytarish
+  return result;                                                                    // Topilgan memberlar ro'yxatini qaytarish
 }
+
+public async updateChosenUser(input: MemberUpdateInput): Promise<Member> {                // Tanlangan foydalanuvchini yangilash funksiyasi
+  input._id = shapeIntoMongooseObjectId(input._id);                                       // _id ni Mongoose formatiga o‘zgartirish
+  const result = await this.memberModel                                                    // MongoDB modelidan foydalanish
+    .findByIdAndUpdate({ _id: input._id }, input, { new: true })                          // _id bo‘yicha yangilash va yangilangan hujjatni qaytarish
+    .exec();                                                                               // So‘rovni bajarish
+
+  if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);                 // Agar yangilash amalga oshmasa, xatolik chiqarish
+
+  return result;                                                                              // Yangilangan foydalanuvchini qaytarish
 }
+
+
+
+}
+
 export default MemberService;
 

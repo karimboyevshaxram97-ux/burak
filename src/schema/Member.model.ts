@@ -30,28 +30,23 @@ const memberSchema = new Schema(
   memberPassword: {
     type: String,
     select: false,
-    required: true,
   },
 
   memberAddress: {
     type: String,
-    required: false,
   },
 
   memberDesc: {
     type: String,
-    required: false,
   },
 
   memberImage: {
     type: String,
-    required: false,
   },
 
   memberPoints: {
     type: Number,
     default: 0,
-    required: true,
   },
 }, { timestamps: true });
 

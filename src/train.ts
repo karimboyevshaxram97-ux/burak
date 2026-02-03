@@ -1,10 +1,34 @@
 /*
+O-TASK
+
+Shunday function yozing, u har xil valuelardan iborat array qabul qilsin
+ va array ichidagi sonlar yigindisini hisoblab chiqqan javobni qaytarsin. 
+MASALAN: calculateSumOfNumbers([10, "10", {son: 10}, true, 35]) return 45.
+*/
+
+function calculateSumOfNumbers(arr: unknown[]): number {
+  let sum = 0;
+
+  for (const item of arr) {
+    if (typeof item === "number") {
+      sum += item;
+    }
+  }
+
+  return sum;
+}
+
+
+
+//========================================================================
+
+/*
 N-TASK
 
 Shunday function yozing, u string qabul qilsin va string palindrom yani togri oqilganda ham,
  orqasidan oqilganda ham bir hil oqiladigan soz ekanligini aniqlab boolean qiymat qaytarsin. 
 MASALAN: palindromCheck("dad") return true; palindromCheck("son") return false.
-*/
+
 
 
 function palindromCheck(str: string): boolean {
@@ -23,7 +47,7 @@ console.log(palindromCheck("son")); // false
 console.log(palindromCheck("level")); // true
 console.log(palindromCheck("hello")); // false
 console.log(palindromCheck("nurses run")); // true (bo‘sh joylarni olib tashlaganligi uchun)
-
+*/
 //===============================================================================
 /**
 M-TASK

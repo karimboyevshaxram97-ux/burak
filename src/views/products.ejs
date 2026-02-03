@@ -1,7 +1,15 @@
 
-<%- include('includes/header') %>
+<%- include('includes/header') %>      <!-- Sahifaning yuqori qismi (header) ni ulash -->
+
 <body>
-  <div>products</div>
-  <div><%=member.memberNick%></div>
+  <div>
+    <div>PRODUCTS PAGE</div>               <!-- Sahifa sarlavhasi: mahsulotlar sahifasi -->
+    <div><%= member.memberNick %></div>     <!-- Foydalanuvchi nickname'ini chiqarish -->
+
+    <% products.map((value, key) => { %>    <!-- Mahsulotlar ro'yxatini aylanish -->
+      <p><%= value.productName %> <%= value.productSize %></p>       <!-- Har bir mahsulot nomini chiqarish va hajmni ham chiqarish-->
+    <% }) %>                               <!-- Aylanish tugashi -->
+  </div>
 </body>
-<%- include('includes/footer') %>
+
+<%- include('includes/footer') %>             <!-- Sahifaning pastki qismi (footer) ni ulash -->
