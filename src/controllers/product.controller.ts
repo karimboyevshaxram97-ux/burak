@@ -49,14 +49,14 @@ productController.createNewProduct = async (req: AdminRequest, res: Response) =>
    await productService.createNewProduct(data);
 
    res.send(
-   '<script> alert("Successful creation!"); window.location.replace(\'admin/product/all\') </script>'
+   '<script> alert("Successful creation!"); window.location.replace("/admin/product/all") </script>'
    );
    } catch (err) {
     console.log("Error, createNewProduct:", err);                                             // Xatolikni konsolga chiqarish
     const message =
     err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;                        // Agar xatolik maxsus Errors turida bo‘lsa, uning xabarini oladi; aks holda umumiy xabarni tanlaydi
      res.send(
-        `<script> alert("${message}"); window.location.replace('admin/product/all') </script>` // Foydalanuvchiga alert ko‘rsatadi va uni 'admin/product/all' sahifasiga yo‘naltiradi
+        `<script> alert("${message}"); window.location.replace('/admin/product/all') </script>` // Foydalanuvchiga alert ko‘rsatadi va uni 'admin/product/all' sahifasiga yo‘naltiradi
     );
   }
 };
