@@ -32,13 +32,13 @@ public async getAllProducts(): Promise<Product[]> {
   }
 //===============================================================================
   public async updateChosenProduct(
-  id: string,                                    // Mahsulot ID'si (string ko'rinishida)
-  input: ProductUpdateInput                      // Yangilanish uchun mahsulot ma'lumotlari
-): Promise<Product> {
-  id = shapeIntoMongooseObjectId(id);            // String ID ni Mongoose ObjectId ga aylantirish
+  id: string,                                         // Mahsulot ID'si (string ko'rinishida)
+  input: ProductUpdateInput                           // Yangilanish uchun mahsulot ma'lumotlari
+): Promise<Product> {  
+  id = shapeIntoMongooseObjectId(id);                 // String ID ni Mongoose ObjectId ga aylantirish
 
   const result = await this.productModel
-    .findOneAndUpdate({ _id: id }, input, { new: true })  // ID bo'yicha yangilash, yangilangan hujjatni qaytarish
+    .findOneAndUpdate({ _id: id }, input, { new: true })    // ID bo'yicha yangilash, yangilangan hujjatni qaytarish
     .exec();                                                // So'rovni bajarish
 
   if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED); // Agar yangilash amalga oshmagan bo'lsa, xatolik chiqarish

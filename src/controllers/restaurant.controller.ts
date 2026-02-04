@@ -23,7 +23,7 @@ restaurantController.goHome = (req: Request, res: Response) => {
         console.log('ERROR, goHome', err);
          res.redirect("/admin")
     }
-    };
+    }; 
 
 
 

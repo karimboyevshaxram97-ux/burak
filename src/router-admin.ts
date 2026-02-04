@@ -4,6 +4,7 @@ const routerAdmin = express.Router();
  import productController from "./controllers/product.controller";
 import  makeUploader  from "./libs/types/utils/uploadar";
 
+
  /** RESTAURANT */
 routerAdmin.get("/", restaurantController.goHome);
  routerAdmin
@@ -18,6 +19,7 @@ routerAdmin
 
 routerAdmin.get("/logout",restaurantController.logout);
 routerAdmin.get("/check-me",restaurantController.checkAuthSession);
+
 
 /** PRODUCT */
 routerAdmin.get("/product/all",                        // GET so‘rovi: barcha mahsulotlarni olish
