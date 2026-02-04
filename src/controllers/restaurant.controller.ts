@@ -139,9 +139,9 @@ restaurantController.updateChosenUser = async(req: Request, res: Response) => { 
     console.log("updateChosenUser");                                                    // Konsolga log chiqarish
     const result = await memberService.updateChosenUser(req.body);
 
+    res.status(HttpCode.OK).json({data:result})
   } catch (err) {                                                                       // Agar xatolik bo'lsa
-    console.log("Error, updateChosenUser:", err);                                       // Xatolikni konsolga chiqarish
-  console.log("Error, updateChosenUser:", err); // Xatolikni konsolga chiqarish
+   console.log("Error, updateChosenUser:", err); // Xatolikni konsolga chiqarish
   if (err instanceof Errors) res.status(err.code).json(err); // Agar xatolik maxsus Errors turida bo‘lsa, kod va xabarni yuborish
   else res.status(Errors.standard.code).json(Errors.standard); // Aks holda umumiy xatolik javobini yuborish
   }
