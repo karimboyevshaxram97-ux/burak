@@ -1,10 +1,18 @@
+function objectToArray(obj: Record<string, any>): [string, any][] {
+    return Object.entries(obj);
+}
+
+// Test
+console.log(objectToArray({a: 10, b: 20}));
+
+
+
 /*
 O-TASK
 
 Shunday function yozing, u har xil valuelardan iborat array qabul qilsin
  va array ichidagi sonlar yigindisini hisoblab chiqqan javobni qaytarsin. 
 MASALAN: calculateSumOfNumbers([10, "10", {son: 10}, true, 35]) return 45.
-*/
 
 function calculateSumOfNumbers(arr: unknown[]): number {
   let sum = 0;
@@ -27,7 +35,7 @@ function calculateSumOfNumbers(arr: unknown[]): number {
 
 const result = calculateSumOfNumbers([10, "10", { son: 10 }, true, 35]);
 console.log("Natija:", result);
-
+*/
 
 
 
