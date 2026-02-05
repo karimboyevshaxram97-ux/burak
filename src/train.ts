@@ -7,24 +7,27 @@ MASALAN: calculateSumOfNumbers([10, "10", {son: 10}, true, 35]) return 45.
 */
 
 function calculateSumOfNumbers(arr: unknown[]): number {
-    let sum = 0;
+  let sum = 0;
 
-    for (const item of arr) {
-        if (typeof item === "number") {
-            sum += item;
-        } else if (typeof item === "string" && !isNaN(Number(item))) {
-            sum += Number(item);
-        } else if (typeof item === "object" && item !== null && "son" in item) {
-            const val = (item as {son: unknown}).son;
-            if (typeof val === "number") {
-                sum += val;
-            }
-        }
+  for (const item of arr) {
+    if (typeof item === "number") {
+      sum += item;
+    } else if (typeof item === "string" && !isNaN(Number(item))) {
+      sum += Number(item);
+    } else if (typeof item === "object" && item !== null && "son" in item) {
+      const val = (item as { son: unknown }).son;
+      if (typeof val === "number") {
+        sum += val;
+      }
     }
+  }
 
-    return sum;
-    console.log(sum)
+  return sum;
 }
+
+const result = calculateSumOfNumbers([10, "10", { son: 10 }, true, 35]);
+console.log("Natija:", result);
+
 
 
 
