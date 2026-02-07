@@ -44,7 +44,7 @@ restaurantController.getLogin = (req: Request, res: Response) => {
     try {
         console.log("getLogin: request Received");
         res.render('login');
-    } catch (err) {
+    }  catch (err) {
         console.log('ERROR, getLogin', err);
         res.redirect("/admin");
     }
@@ -75,7 +75,7 @@ restaurantController.processSignup = async (
         const message =
         err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
           res.send(
-          `<script> alert("${message}"); window.location.replace('admin/signup') </script>`
+          `<script> alert("${message}"); window.location.replace('/admin/signup') </script>`
 );
     }
 };
@@ -85,7 +85,9 @@ restaurantController.processSignup = async (
 restaurantController.processLogin = async (req: AdminRequest, res: Response) => {
     try {
         console.log("processLogin");
-        
+       //console.log("req.body:", req.body);
+       // throw new Error("FORCED STOP!");
+
         const input: LoginInput = req.body; 
         const result = await memberService.login(input);
        
@@ -99,7 +101,7 @@ restaurantController.processLogin = async (req: AdminRequest, res: Response) => 
         const message =
         err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
           res.send(
-          `<script> alert("${message}"); window.location.replace('admin/login') </script>`
+          `<script> alert("${message}"); window.location.replace('/admin/login') </script>`
 );
     }
 };
@@ -123,13 +125,13 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
 restaurantController.getUsers = async (req: Request, res: Response) => {         // Foydalanuvchilar ro'yxatini olish
   try {                                                                       // Xatoliklarni ushlash uchun blok
     console.log("getUsers");                                                 // Konsolga log chiqarish
-    const result = await memberService.getUsers();                            // memberService orqali foydalanuvchilarni olish
+    const result = await memberService.getUsers();     //  memberService maqsadli object ........memberService orqali foydalanuvchilarni olish
    
 
     res.render("users", { users: result });                                 // "users" sahifasini render qilish
   } catch (err) {                                                           // Agar xatolik bo'lsa
     console.log("Error, getUsers:", err);                                     // Xatolikni konsolga chiqarish
-    res.redirect("/admin/login");                                            // Login sahifasiga yo'naltirish
+    res.redirect("/admin/login");            //redirct majburiy xolatda......Login sahifasiga yo'naltirish
   }
 };
 

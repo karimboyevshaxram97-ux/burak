@@ -88,7 +88,7 @@ class MemberService {
       throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);                     // Parol noto'g'ri bo'lsa
     }  
 
-    return await this.memberModel.findById(member._id).exec();                           // To'liq memberni qaytarish
+    return await this.memberModel.findById(member._id).exec();                        // To'liq memberni qaytarish
   }
 
 
@@ -97,7 +97,7 @@ public async getUsers(): Promise<Member[]> {            // USER turidagi barcha 
     .find({ memberType: MemberType.USER })              // Faqat USER turidagi memberlarni qidirish
     .exec();                                           // So'rovni bajarish
 
-  if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);             // Agar hech narsa topilmasa, xatolik chiqarish
+ 
 
   return result;                                                                    // Topilgan memberlar ro'yxatini qaytarish
 }

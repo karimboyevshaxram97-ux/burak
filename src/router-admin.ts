@@ -41,7 +41,7 @@ routerAdmin.post("/product/:id",                            // POST so‘rovi: m
 
 /** USER */
 
-routerAdmin.get("/user/all", 
+routerAdmin.get("/user/all",    // endpointmiz qanoatlantirganizmdan
       restaurantController.verifyRestaurant,
        restaurantController.getUsers)
 
