@@ -4,7 +4,9 @@
 
 <body>
   <div class="signup-container">
-    <form action="/admin/signup" method="POST" enctype="multipart/form-data">
+    <form
+    onsubmit="return validateSignupFrom()"
+    action="/admin/signup" method="POST" enctype="multipart/form-data">
       <div class="signup-frame" style="width: 650px">
         <div class="signup-top">
           <span>Signup</span>
@@ -29,7 +31,7 @@
           <div class="sign-up-frame">
             <label>Phone *</label>
             <input
-              type="text"
+              type="text" 
               name="memberPhone"
               class="member-phone"
               placeholder="Phone"
