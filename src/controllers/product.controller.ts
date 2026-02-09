@@ -18,7 +18,7 @@ const productController: T = {};
 productController.getAllProducts = async (req: Request, res: Response) => {
   try {  
     console.log("getAllProducts");                                    // Konsolga funksiyaning chaqirilganini yozish
-
+    
     const data = await productService.getAllProducts();               // Servisdan barcha mahsulotlarni olish
     
     res.render("products", { products: data });                        // "products" sahifasini render qilish va mahsulotlarni uzatish
@@ -46,7 +46,7 @@ productController.createNewProduct = async (req: AdminRequest, res: Response) =>
 
    console.log("data:", data);                                // Yakuniy mahsulot ma'lumotlarini konsolga chiqarish
 
-   await productService.createNewProduct(data);
+  const result = await productService.createNewProduct(data);
 
    res.send(
    '<script> alert("Successful creation!"); window.location.replace("/admin/product/all") </script>'

@@ -58,7 +58,7 @@ class MemberService {
       .findOne({ memberType: MemberType.RESTAURANT }) // RESTAURANT turidagi memberni qidirish
       .exec(); // So'rovni bajarish
 
-    if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED); // Agar mavjud bo'lsa xatolik
+   // if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED); // Agar mavjud bo'lsa xatolik
 
     const salt = await bcrypt.genSalt(); // Tuz yaratish
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt); // Parolni xeshlash
