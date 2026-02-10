@@ -46,7 +46,7 @@ productController.createNewProduct = async (req: AdminRequest, res: Response) =>
 
    console.log("data:", data);                                // Yakuniy mahsulot ma'lumotlarini konsolga chiqarish
 
-  const result = await productService.createNewProduct(data);
+  await productService.createNewProduct(data);
 
    res.send(
    '<script> alert("Successful creation!"); window.location.replace("/admin/product/all") </script>'

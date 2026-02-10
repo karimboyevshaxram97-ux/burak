@@ -1,6 +1,6 @@
 
 import { error } from "console"; // Konsol xatoliklari uchun
-import { MemberType } from "../libs/types/enums/member.enum"; // MemberType enum
+import { MemberStatus, MemberType } from "../libs/types/enums/member.enum"; // MemberType enum
 import Errors, { HttpCode, Message } from "../libs/types/errors"; // Maxsus xatoliklar va kodlar
 import { LoginInput, Member, MemberInput, MemberUpdateInput } from "../libs/types/member"; // Tiplar
 import MemberModel from "../schema/Member.model"; // MongoDB modeli
@@ -12,23 +12,23 @@ class MemberService {
   private readonly memberModel;
 
   constructor() {
-    this.memberModel = MemberModel;             // Modelni tayinlash
+    this.memberModel = MemberModel;                                            // Modelni tayinlash
   }
 
   /**
    * SPA - Ro'yxatdan o'tish
    */
   public async Signup(input: MemberInput): Promise<Member> {
-    const salt = await bcrypt.genSalt(); // Tuz yaratish
-    input.memberPassword = await bcrypt.hash(input.memberPassword, salt); // Parolni xeshlash
+    const salt = await bcrypt.genSalt();                                                  // Tuz yaratish
+    input.memberPassword = await bcrypt.hash(input.memberPassword, salt);               // Parolni xeshlash
 
     try {
-      const result = await this.memberModel.create(input); // Yangi member yaratish
-      result.memberPassword = ""; // Parolni javobdan olib tashlash
-      return result.toJSON(); // JSON formatda qaytarish
+      const result = await this.memberModel.create(input);                                    // Yangi member yaratish
+      result.memberPassword = "";                                                             // Parolni javobdan olib tashlash
+      return result.toJSON();                                                                  // JSON formatda qaytarish
     } catch (err) {
-      console.error("Error, model:signup", err); // Konsolga xatolik chiqarish
-      throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE); // Xatolikni otish
+      console.error("Error, model:signup", err);                                                 // Konsolga xatolik chiqarish
+      throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);                            // Xatolikni otish
     }
   }
 
@@ -37,39 +37,43 @@ class MemberService {
    */
   public async login(input: LoginInput): Promise<Member> {
     const member = await this.memberModel
-      .findOne({ memberNick: input.memberNick }, { memberNick: 1, memberPassword: 1 }) // Nickname orqali qidirish
-      .exec(); // So'rovni bajarish
+      .findOne({ memberNick: input.memberNick,
+        memberStatus: {$ne: MemberStatus.DELETE},
+      },
+         { memberNick: 1, memberPassword: 1, memberStatus: 1 }
+        )
+      .exec();                                                                                 // So'rovni bajarish
 
-    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK); // Agar topilmasa xatolik
+    if (!member) throw new Errors(HttpCode.NOT_FOUND, Message.NO_MEMBER_NICK);                      // Agar topilmasa xatolik
 
-    const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword); // Parollarni solishtirish
+    const isMatch = await bcrypt.compare(input.memberPassword, member.memberPassword);             // Parollarni solishtirish
     if (!isMatch) {
-      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD); // Parol noto'g'ri bo'lsa
+      throw new Errors(HttpCode.UNAUTHORIZED, Message.WRONG_PASSWORD);                       // Parol noto'g'ri bo'lsa
     }
 
-    return await this.memberModel.findById(member._id).lean().exec(); // To'liq memberni qaytarish
+    return await this.memberModel.findById(member._id).lean().exec();                             // To'liq memberni qaytarish
   }
-
-  /**
+      
+  /**1
    * SSR - Ro'yxatdan o'tish
    */
   public async processSignup(input: MemberInput): Promise<Member> {
     const exist = await this.memberModel
-      .findOne({ memberType: MemberType.RESTAURANT }) // RESTAURANT turidagi memberni qidirish
-      .exec(); // So'rovni bajarish
+      .findOne({ memberType: MemberType.RESTAURANT })                                           // RESTAURANT turidagi memberni qidirish
+      .exec();                                                                                  // So'rovni bajarish
 
-   // if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED); // Agar mavjud bo'lsa xatolik
+   // if (exist) throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);                   // Agar mavjud bo'lsa xatolik
 
-    const salt = await bcrypt.genSalt(); // Tuz yaratish
-    input.memberPassword = await bcrypt.hash(input.memberPassword, salt); // Parolni xeshlash
+    const salt = await bcrypt.genSalt();                                                          // Tuz yaratish
+    input.memberPassword = await bcrypt.hash(input.memberPassword, salt);                        // Parolni xeshlash
 
     try {
-      const result = await this.memberModel.create(input); // Yangi member yaratish
-      result.memberPassword = ""; // Parolni olib tashlash
-      return result; // Memberni qaytarish
+      const result = await this.memberModel.create(input);                                      // Yangi member yaratish
+      result.memberPassword = "";                                                                // Parolni olib tashlash
+      return result;                                                                              // Memberni qaytarish
     } catch (err) {
-      console.log(err); // Konsolga xatolik chiqarish
-      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED); // Xatolikni otish
+      console.log(err);                                                                           // Konsolga xatolik chiqarish
+      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);                            // Xatolikni otish
     }
   }
 

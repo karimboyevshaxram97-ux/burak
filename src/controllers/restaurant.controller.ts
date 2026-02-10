@@ -15,7 +15,7 @@ const memberService = new MemberService();
 
 const restaurantController: T = {};
 restaurantController.goHome = (req: Request, res: Response) => {
-    try {
+    try {0
         console.log("goHome: request Received");
         res.render('home');
         // SEND | JSON | REDIRECT | END | RENDER  
