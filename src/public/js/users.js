@@ -7,9 +7,9 @@ $(function()   {
         const id = e.target.id,
         memberStatus = $(`#${id}.member-status`).val();
 
-        axios
-        .post("/admin/user/edit", {
-          _id: id,
+        axios                                                 // 3. Serverga (Backendga) ma'lumot yuborish qismi boshlanadi
+        .post("/admin/user/edit", {                           // 4. "/admin/user/edit" manziliga POST so'rovi yuboriladi
+          _id: id,                                            // Serverga foydalanuvchi IDsi yuboriladi
           memberStatus: memberStatus,
         })
         .then((response) => {
