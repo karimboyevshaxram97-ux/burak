@@ -1,3 +1,27 @@
+/*
+U-TASK
+
+Shunday function yozing, uni number parametri bolsin va 0 dan berilgan
+ parametrgacha bolgan oraliqdagi faqat toq sonlar nechtaligini return qilsin.
+ MASALAN: sumOdds(9) return 4; sumOdds(11) return 5.
+*/
+
+function sumOdds(n: number): number {
+  let count = 0;
+
+  for (let i = 1; i <= n; i += 2) {
+    count++;
+  }
+
+  return count;
+}
+
+// Test
+console.log(sumOdds(9));   // 4
+console.log(sumOdds(11));  // 5
+
+
+//===============================================================================
 /**
  T-TASK
 
@@ -5,14 +29,14 @@ Shunday function yozing, u sonlardan tashkil topgan 2 ta array qabul
 qilsin va ikkala arraydagi sonlarni tartiblab bir arrayda qaytarsin.
  MASALAN: mergeSortedArrays([0,3,4,31], [4,6,30]) return [0,3,4,4,6,30,31].
 
- */
+ 
 
 function mergeSortedArrays(arr1: number[], arr2: number[]): number[] {
   return arr1.concat(arr2).sort((a, b) => a - b);
 }
 
 console.log(mergeSortedArrays([0, 3, 4, 31], [4, 6, 30]));
-
+*/
 
 //==========================================================================
 /*
