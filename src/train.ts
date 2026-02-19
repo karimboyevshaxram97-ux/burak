@@ -1,10 +1,35 @@
 /*
+V-TASK
+
+Shunday function yozing, uni string parametri bolsin va stringdagi harf va 
+u harf necha marta takrorlangani sonidan tashkil topgan object qaytarsin. 
+MASALAN: countChars("hello") return {h: 1, e: 1, l: 2, o: 1}.
+*/
+
+function countChars(str: string): Record<string, number> {
+  const result: Record<string, number> = {};
+
+  for (const char of str) {
+    result[char] = (result[char] || 0) + 1;
+  }
+
+  return result;
+}
+
+
+console.log(countChars("hello"));
+
+
+
+
+//==============================================================================
+/*
 U-TASK
 
 Shunday function yozing, uni number parametri bolsin va 0 dan berilgan
  parametrgacha bolgan oraliqdagi faqat toq sonlar nechtaligini return qilsin.
  MASALAN: sumOdds(9) return 4; sumOdds(11) return 5.
-*/
+
 
 function sumOdds(n: number): number {
   let count = 0;
@@ -19,7 +44,7 @@ function sumOdds(n: number): number {
 // Test
 console.log(sumOdds(9));   // 4
 console.log(sumOdds(11));  // 5
-
+*/
 
 //===============================================================================
 /**
