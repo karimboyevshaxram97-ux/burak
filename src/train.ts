@@ -1,3 +1,54 @@
+/**X-TASK
+
+Shunday function yozing, uni object va string parapetrlari bolsin.
+ Function string parametri object ichida necha marotaba takrorlanganligini 
+ qaytarsin (nested object bolsa ham sanasin). MASALAN:
+  countOccurrences({model: 'Bugatti', steer: {model: 'HANKOOK', size: 30}}, 'model') 
+  return 2.
+ */
+
+type AnyObject = Record<string, unknown>;
+
+function countOccurrences(obj: unknown, key: string): number {
+  let count = 0;
+
+  function helper(current: unknown): void {
+    if (current === null || typeof current !== 'object') return;
+
+    if (Array.isArray(current)) {
+      current.forEach(item => helper(item));
+      return;
+    }
+
+    const currentObj = current as AnyObject;
+
+    for (const k in currentObj) {
+      if (k === key) {
+        count++;
+      }
+      helper(currentObj[k]);
+    }
+  }
+
+  helper(obj);
+  return count;
+}
+
+const data = {
+  model: 'Bugatti',
+  steer: {
+    model: 'HANKOOK',
+    size: 30,
+  },
+  parts: [
+    { model: 'X1' },
+    { size: 20, extra: { model: 'X2' } },
+  ],
+};
+
+console.log(countOccurrences(data, 'model')); // 4
+
+//==================================================================================
 /*
 W-TASK
 
@@ -5,7 +56,7 @@ Shunday function yozing, uni array va number parametrlari bolsin.
 Function arrayni numberda berilgan uzunlikda kesib bolaklarga ajratilgan array holatida qaytarsin. 
 MASALAN: chunkArray([1,2,3,4,5,6,7,8,9,10], 3) 
 return [[1,2,3], [4,5,6], [7,8,9], [10]].
-*/
+
 
 function chunkArray<T>(arr: T[], size: number): T[][] {
   if (size <= 0) {
@@ -23,7 +74,7 @@ function chunkArray<T>(arr: T[], size: number): T[][] {
 
 const nums = chunkArray([1,2,3,4,5,6,7,8,9,10], 3);
 console.log(nums);
-
+*/
 //===============================================================================
 
 /*
