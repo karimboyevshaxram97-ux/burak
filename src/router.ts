@@ -4,8 +4,13 @@ import express from "express";
  
  const router = express.Router();
 
- router.post("/login", memberController.login);
-router.post("/signup",memberController.signup);
+/** Member **/
+router.post("/member/login", memberController.login);
+router.post("/member/signup", memberController.signup);
+router.get("/member/detail", memberController.verifyAuth);
+
+/** Product **/
+
+/** Order **/
+
 export default router;
-
-

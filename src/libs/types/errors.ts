@@ -17,11 +17,12 @@ export enum Message {
   UPDATE_FAILED = "Update is failed!",                   // Yangilash jarayoni muvaffaqiyatsiz tugadi
 
   USED_NICK_PHONE = "You are inserting already used nick or phone!",
+  TOKEN_CREATION_FAILED = "Token creation error",
   NO_MEMBER_NICK = "No member with that member nick!",
   BLOCKED_USER = "You have been blocked,  contact the restaurant",
   WRONG_PASSWORD = "Wrong password, please try again!",
    XATO_KOD = "AGAR KODINGIZ XATO BOLSA BOSHQATDAN URINIB KORING!",
-   NOT_AUTHENTICATED = "you are not authenticated,please login first!"
+   NOT_AUTHENTICATED = "you are not authenticated,please login first!" 
 }
 
 // Maxsus xatolik klassi, umumiy Error klassidan meros oladi
