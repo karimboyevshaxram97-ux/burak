@@ -54,7 +54,19 @@ class MemberService {
     return await this.memberModel.findById(member._id).lean().exec();                             // To'liq memberni qaytarish
   }
       
-  /**1
+
+    public async getMemberDetail(member: Member): Promise<Member> {
+     const memberId = shapeIntoMongooseObjectId(member._id);
+     const result = await this.memberModel
+        .findOne({ _id: memberId, memberStatus: MemberStatus.ACTIVE })
+        .exec();
+      if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+      return result;
+    }
+
+    
+  /**1 
    * SSR - Ro'yxatdan o'tish
    */
   public async processSignup(input: MemberInput): Promise<Member> {
