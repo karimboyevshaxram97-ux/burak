@@ -1,3 +1,19 @@
+/*
+Y-TASK
+
+Shunday function yozing, uni 2 ta array parapetri bolsin. 
+Function ikkala arrayda ham ishtirok etgan qiymatlarni bir arrayda 
+qaytarsin. MASALAN: findIntersection([1,2,3], [3,2,0]) return [2,3].
+*/
+
+function findIntersection<T>(arr1: T[], arr2: T[]): T[] {
+  return arr1.filter(value => arr2.includes(value));
+}
+
+// Misol:
+console.log(findIntersection([1, 2, 3], [3, 2, 0])); 
+
+//=======================================================================
 /**X-TASK
 
 Shunday function yozing, uni object va string parapetrlari bolsin.
@@ -5,7 +21,7 @@ Shunday function yozing, uni object va string parapetrlari bolsin.
  qaytarsin (nested object bolsa ham sanasin). MASALAN:
   countOccurrences({model: 'Bugatti', steer: {model: 'HANKOOK', size: 30}}, 'model') 
   return 2.
- */
+ 
 
 type AnyObject = Record<string, unknown>;
 
@@ -47,7 +63,7 @@ const data = {
 };
 
 console.log(countOccurrences(data, 'model')); // 4
-
+*/
 //==================================================================================
 /*
 W-TASK
