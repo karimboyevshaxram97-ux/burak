@@ -18,6 +18,16 @@ class MemberService {
   /**
    * SPA - Ro'yxatdan o'tish
    */
+
+  public async getRestaurant(): Promise<Member> {
+    const result = await this.memberModel
+      .findOne({ memberType: MemberType.RESTAURANT })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    return result;
+  }
+
   public async Signup(input: MemberInput): Promise<Member> {
     const salt = await bcrypt.genSalt();                                                  // Tuz yaratish
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);               // Parolni xeshlash
