@@ -1,7 +1,9 @@
 import Errors, { HttpCode, Message } from "../libs/types/errors"; // Maxsus xatoliklar va HTTP kodlar
-import { Product, ProductUpdateInput, ProductInput } from "../libs/types/product"; // Mahsulot tiplarini import qilish
+import { Product, ProductUpdateInput, ProductInput, ProductInquiry } from "../libs/types/product"; // Mahsulot tiplarini import qilish
 import ProductModel from "../schema/Product.models"; // Mahsulot modeli (MongoDB)
 import { shapeIntoMongooseObjectId } from "../libs/types/config";
+import { ProductStatus } from "../libs/types/enums/product.enum";
+import {ObjectId} from "mongoose"
 
 class ProductService {
   private readonly productModel; // Mahsulot modelini saqlovchi xususiyat
@@ -11,9 +13,61 @@ class ProductService {
   }
 
   /** SPA */ // Single Page Application uchun joy
-  /** SSR */ // Server Side Rendering uchun joy
+ 
+  public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
+  const match: any = { productStatus: ProductStatus.PROCESS };
 
+  if (inquiry.productCollection) {
+    match.productCollection = inquiry.productCollection;
+  }
+  if (inquiry.search) {
+    match.productName = { $regex: new RegExp(inquiry.search, "i") };
+  }
 
+  const sort: any =
+    inquiry.order === "productPrice"
+      ? { [inquiry.order]: 1 }
+      : { [inquiry.order]: -1 };
+
+  const result = await this.productModel
+    .aggregate([
+      { $match: match },
+      { $sort: sort },
+      { $skip: (inquiry.page - 1) * inquiry.limit },
+      { $limit: inquiry.limit },
+    ])
+    .exec();
+
+  if (!result) {
+    throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+  }
+
+  return result;
+}
+//=======================================================
+
+public async getProduct(
+    memberId: ObjectId | null,
+    id: string
+): Promise<Product> {
+    const productId = shapeIntoMongooseObjectId(id);
+
+    let result = await this.productModel
+        .findOne({
+            _id: productId,
+            productStatus: ProductStatus.PROCESS,
+        })
+        .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    // TODO: If authenticated users => first => view log creation
+
+    return result;
+}
+
+//=========================================================
+/** SSR */ // Server Side Rendering uchun joy
+  //=======================================================
 public async getAllProducts(): Promise<Product[]> {
     const result = await this.productModel.find().exec(); // Barcha mahsulotlarni bazadan olish
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND); // Agar hech narsa topilmasa, xatolik chiqarish

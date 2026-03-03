@@ -2,6 +2,7 @@ import express from "express";
 import memberController from "./controllers/member.controllers";
  const router = express.Router();
  import uploader from "./libs/types/utils/uploadar"
+ import productController  from "./controllers/product.controller";
 
 /** Member **/
 router.get("/member/restaurant", memberController.getRestaurant);
@@ -26,7 +27,11 @@ router.get(
  router.get("/member/top-users", memberController.getTopUsers);
 
 /** Product **/
-
+router.get("/product/all", productController.getProducts);
+router.get("/product/:id",
+    memberController.retrieveAuth,
+    productController.getProduct,
+   );
 /** Order **/
 
 export default router;

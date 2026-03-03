@@ -20,6 +20,15 @@ export interface Product {
   productViews: number;                  // Mahsulot ko'rilganlar soni
 }
 
+export interface ProductInquiry {
+  order: string;                 // majburiy, tartib (masalan: "asc" yoki "desc")
+  page: number;                  // majburiy, sahifa raqami
+  limit: number;                 // majburiy, har sahifada nechta element
+  productCollection?: ProductCollection; // ixtiyoriy, mahsulot to‘plami
+  search?: string;               // ixtiyoriy, qidiruv so‘zi
+}
+
+
 // Mahsulot yaratish uchun ishlatiladigan interfeys (odatda formadan keladi)
 export interface ProductInput {
   productStatus?: ProductStatus;         // Mahsulot holati (ixtiyoriy)

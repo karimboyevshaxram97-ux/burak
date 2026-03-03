@@ -2,14 +2,70 @@ import { Request, Response } from "express";
 import { T } from "../libs/types/common";
 import Errors, {HttpCode, Message} from "../libs/types/errors";
 import ProductService from "../models/Product.service";     // yo‘lni loyihangizga moslang
-import { ProductInput } from "../libs/types/product";
-import { AdminRequest } from "../libs/types/member";
+import { ProductInput, ProductInquiry } from "../libs/types/product";
+import { AdminRequest, ExtendedRequest } from "../libs/types/member";
+import { ProductCollection } from "../libs/types/enums/product.enum";
 
 
 const productService = new ProductService();
 const productController: T = {};
 
 /** SPA */ // Single Page Application uchun joy
+productController.getProducts = async (req: Request, res: Response) => {
+  try {
+    console.log("getProducts");
+
+    // Query parametrlardan qiymatlarni olish
+    const { page, limit, order, productCollection, search } = req.query;
+
+    // ProductInquiry obyektini tuzish
+    const inquiry: ProductInquiry = {
+      order: String(order),
+      page: Number(page),
+      limit: Number(limit),
+    };
+
+    if (productCollection) {
+      inquiry.productCollection = productCollection as ProductCollection;
+    }
+    if (search) {
+      inquiry.search = String(search);
+    }
+
+    // Servis orqali mahsulotlarni olish
+    const result = await productService.getProducts(inquiry);
+
+    // Javob qaytarish
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, getProducts:", err);
+    if (err instanceof Errors) {
+      res.status(err.code).json(err);
+    } else {
+      res.status(Errors.standard.code).json(Errors.standard);
+    }
+  }
+};
+
+//=======================================================================
+
+ productController.getProduct = async (req: ExtendedRequest, res: Response) => {
+  try {
+    console.log("getProduct");
+    const { id } = req.params;
+
+    const memberId = req.member?._id ?? null,
+          result = await productService.getProduct(memberId, id);
+
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error, getProduct:", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+ //==============================================================
 
 
 /** SSR */ // Server Side Rendering uchun joy
