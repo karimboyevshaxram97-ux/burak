@@ -4,12 +4,17 @@ import ProductModel from "../schema/Product.models"; // Mahsulot modeli (MongoDB
 import { shapeIntoMongooseObjectId } from "../libs/types/config";
 import { ProductStatus } from "../libs/types/enums/product.enum";
 import {ObjectId} from "mongoose"
+import ViewService from "./View.service";
+import { ViewInput } from "../libs/types/view";
+import { ViewGroup } from "../libs/types/enums/View.enum";
 
 class ProductService {
   private readonly productModel; // Mahsulot modelini saqlovchi xususiyat
+  public viewService;
 
   constructor() {
     this.productModel = ProductModel; // Modelni konstruktor orqali tayinlash
+    this.viewService = new ViewService();
   }
 
   /** SPA */ // Single Page Application uchun joy
@@ -61,9 +66,34 @@ public async getProduct(
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
     // TODO: If authenticated users => first => view log creation
+       if (memberId) {
+         // Check Existence
+         const input: ViewInput = {
+           memberId: memberId,
+           viewRefId: productId,
+           viewGroup: ViewGroup.PRODUCT,
+         };
+         const existView = await this.viewService.checkViewExistence(input);
+
+         console.log("exist:", existView);
+         if (!existView) {
+           // Insert View
+           await this.viewService.insertMemberView(input);
+         }
+
+         // Increase Counts
+         result = await this.productModel
+           .findByIdAndUpdate(
+             productId,
+             { $inc: { productViews: +1 } },
+             { new: true }
+           )
+           .exec();
+       }
 
     return result;
 }
+
 
 //=========================================================
 /** SSR */ // Server Side Rendering uchun joy
