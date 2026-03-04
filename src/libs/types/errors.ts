@@ -43,5 +43,5 @@ static standard = {
   }
 }
 
-// Bu klassni boshqa fayllarda ishlatish uchun eksport qilamiz
-export default Errors;
+// Bu klassni boshqa fayllarda ishlatish uchun e ksport qilamiz
+export default Errors; 
