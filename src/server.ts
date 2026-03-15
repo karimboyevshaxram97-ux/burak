@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import app from "./app";
 
 const MONGO_URL = process.env.MONGO_URL as string;
-const PORT = process.env.PORT ?? 3003;
+const PORT = process.env.PORT ?? 3005;
 
 mongoose
   .connect(MONGO_URL, {})

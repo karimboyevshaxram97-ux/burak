@@ -18,7 +18,10 @@ export interface Product {
   productDesc?: string;                  // Mahsulot tavsifi (ixtiyoriy)
   productImages: string[];               // Mahsulot rasmlari
   productViews: number;                  // Mahsulot ko'rilganlar soni
+  createdAt: Date;
+  updatedAt: Date;
 }
+
 
 export interface ProductInquiry {
   order: string;                 // majburiy, tartib (masalan: "asc" yoki "desc")
