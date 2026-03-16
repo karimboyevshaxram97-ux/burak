@@ -1,17 +1,40 @@
+/**ZF-TASK
 
+Shunday function yozing, uni string parametri bolsin.
+ String ichidagi har bir sozni bosh harflarini katta harf qilib qaytarsin
+  lekin 1 yoki 2 harfdan iborat sozlarni esa oz holicha qoldirsin.
+   MASALAN: capitalizeWords('name should be a string') return 'Name Should be a String'.
+ */
+
+   function capitalizeWords(str: string): string {
+  return str
+    .split(' ')
+    .map((word: string): string => {
+      if (word.length > 2) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }
+      return word;
+    })
+    .join(' ');
+}
+const input: string = 'name should be a string';
+const result: string = capitalizeWords(input);
+
+console.log(result); 
+//=======================================================================================
 /**ZE-TASK
 
 Shunday function yozing, uni string parametri bolsin. 
 String ichida takrorlangan harflarni olib tashlab qolganini qaytarsin.
  MASALAN: removeDuplicate('stringg') return 'string'.
- */
+ 
 
  function removeDuplicate(str: string): string {
   return [...new Set(str)].join("");
 }
 
 console.log(removeDuplicate("stringg")); 
-
+*/
 //=============================================================================
 /**ZD-TASK
 
