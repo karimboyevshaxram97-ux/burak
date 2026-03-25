@@ -90,7 +90,7 @@ public async getMyOrders(
     const result = await this.orderModel
         .aggregate([                     //Bu MongoDB aggregation pipeline ishlatadi.
             { $match: matches },          //Faqat kerakli orderlarni filtrlaydi.
-            { $sort: { updateAt: -1 } },   //Eng oxirgi yangilangan order tepada chiqadi.
+            { $sort: { updatedAt: -1 } },   //Eng oxirgi yangilangan order tepada chiqadi.
             { $skip: (inquiry.page - 1) * inquiry.limit },  //  Pagination uchun. page = 2  limit = 5
             { $limit: inquiry.limit },  //Nechta order qaytarilishini belgilaydi.
             {
