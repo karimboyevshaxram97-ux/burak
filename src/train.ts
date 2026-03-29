@@ -1,8 +1,29 @@
+/**ZI-TASK
+
+Shunday function yozing, u function ishga tushgandan 3 soniyadan 
+keyin "Hello World" ni qaytarsin. 
+MASALAN: delayHelloWorld("Hello World") return "Hello World". */
+
+function delayHelloWorld(message: string): Promise<string> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(message);
+    }, 3000); // 3 soniya (3000 ms)
+  });
+}
+
+// ishlatish
+delayHelloWorld("Hello World").then((result) => {
+  console.log(result); // 3 soniyadan keyin "Hello World"
+});
+
+
+//============================================================================
 /**ZH-TASK
 
 Shunday function yozing, u berilgan array parametrni ichidagi eng katta raqamgacha 
 tushib qolgan raqamlarni bir arrayda qaytarsin.
- MASALAN: findDisappearedNumbers([1, 3, 4, 7]) return [2, 5, 6]. */
+ MASALAN: findDisappearedNumbers([1, 3, 4, 7]) return [2, 5, 6]. 
 
  function findDisappearedNumbers(arr: number[]): number[] {
   const maxNum = Math.max(...arr); 
@@ -14,12 +35,12 @@ tushib qolgan raqamlarni bir arrayda qaytarsin.
     }
   }
 
-  return result;
+  return result; 
 }
 
-// Misol:
+// Misol: 
 console.log(findDisappearedNumbers([1, 3, 4, 7])); 
-
+*/
 
 //====================================================================================
 /**ZG-TASK
